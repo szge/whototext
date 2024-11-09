@@ -17,7 +17,7 @@
   <p id="mobileWarning" style="text-align: center; color: #666; display: none; font-style: italic;">Your experience may be better on desktop</p>
 
   <div class="container">
-    <p style="text-align: left; color: #666;">It's a Friday night and you're bored. You have between 1 and <a href="https://en.wikipedia.org/wiki/Dunbar%27s_number" style="color: #666;" target="_blank">150</a> friends. You want to chat or hang out, but you don't have a reason to reach out to anyone in particular. This website is your reason.</p>
+    <p id="timeText" style="text-align: left; color: #666;"></p>
     <textarea id="friendList" rows="10" placeholder="Paste your list of friends here, one per line..."></textarea>
     <br><br>
     <button onclick="getRandomFriend()">Text a Friend</button>
@@ -122,7 +122,29 @@
     // Call this when page loads and when window is resized
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
+
+    function updateTimeText() {
+      const now = new Date();
+      const day = now.toLocaleDateString('en-US', { weekday: 'long' });
+      const hour = now.getHours();
+      
+      let timeOfDay;
+      if (hour >= 5 && hour < 12) timeOfDay = 'morning';
+      else if (hour >= 12 && hour < 17) timeOfDay = 'afternoon';
+      else if (hour >= 17 && hour < 22) timeOfDay = 'evening';
+      else timeOfDay = 'night';
+      
+      document.getElementById('timeText').textContent = 
+        `It's a ${day} ${timeOfDay} and you're bored. You have between 1 and 150 friends. You want to chat with someone, but don't have a reason to reach out to anyone in particular. This website is your reason.`;
+    }
+    
+    // Call when page loads
+    updateTimeText();
   </script>
+  
+  <footer style="text-align: center; padding: 20px; margin-top: 40px; color: #666;">
+    Made by <a href="https://github.com/szge">szge</a> &middot; 
+  </footer>
 </body>
 
 </html>
