@@ -52,7 +52,7 @@
           <span style="color: #777;">Copy+paste the below prompt into a chatbot (e.g. <a href="https://chatgpt.com/"
               target="_blank">ChatGPT</a>).</span>
 
-          <blockquote style="padding: 15px; border-left: 4px solid #666; margin: 10px 0; color: #999;">
+          <blockquote id="promptText" style="padding: 15px; border-left: 4px solid #666; margin: 10px 0; color: #999;">
             I will give you a list of profiles copied from a social media site.
             <br>
             Return a list in the following format: Name (Handle)
@@ -67,12 +67,15 @@
             List of profiles:
           </blockquote>
           <div style="text-align: center;">
+            <button onclick="copyPrompt()" style="margin: 10px 0; background: #999; border-color: #444;">Copy Prompt</button>
+          </div>
+          <div style="text-align: center;">
             <img src="step1.png" alt="Example of chatbot prompt" style="max-width: 70%; margin: 10px 0;">
           </div>
         </li>
         <li>
           <strong>Append your friends list</strong><br>
-          <span style="color: #777;">Copy a (messy) list of your friends, e.g. your Instagram followers list, and paste
+          <span style="color: #777;">Copy a (messy) list of your friends, e.g. your <a href="https://www.instagram.com/" target="_blank">Instagram</a> followers list, and paste
             it at the end of the prompt. Let the chatbot correctly format your list for you.</span>
           <div style="text-align: center;">
             <img src="step2a.png" alt="Copying social media followers list" style="max-width: 70%; margin: 10px 0;">
@@ -215,6 +218,22 @@
 
     // Call when page loads
     updateTimeText();
+
+    function copyPrompt() {
+      const promptText = document.getElementById('promptText').innerText;
+      navigator.clipboard.writeText(promptText)
+        .then(() => {
+          const copyButton = document.querySelector('button[onclick="copyPrompt()"]');
+          const originalText = "Copy Prompt";
+          copyButton.textContent = 'Copied!';
+          setTimeout(() => {
+            copyButton.textContent = originalText;
+          }, 1000);
+        })
+        .catch(err => {
+          console.error('Failed to copy text: ', err);
+        });
+    }
   </script>
 </body>
 
