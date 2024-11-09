@@ -110,6 +110,22 @@
   <script>
     let hasGeneratedOnce = false;
 
+    function saveFriendList() {
+        const text = document.getElementById('friendList').value;
+        localStorage.setItem('friendList', text);
+    }
+
+    function loadFriendList() {
+        const savedList = localStorage.getItem('friendList');
+        if (savedList) {
+            document.getElementById('friendList').value = savedList;
+        }
+    }
+
+    document.getElementById('friendList').addEventListener('input', saveFriendList);
+
+    document.addEventListener('DOMContentLoaded', loadFriendList);
+
     const openers = {
       "casual": [
         "Hey! It's been forever - how have you been?",
