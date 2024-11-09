@@ -14,7 +14,8 @@
 
 <body>
   <h1 style="text-align: center; padding: 20px;">whototext.com</h1>
-  <p id="mobileWarning" style="text-align: center; color: #666; display: none; font-style: italic;">Your experience may be better on desktop</p>
+  <p id="mobileWarning" style="text-align: center; color: #666; display: none; font-style: italic;">Your experience may
+    be better on desktop</p>
 
   <div class="container">
     <p id="timeText" style="text-align: left; color: #666;"></p>
@@ -33,6 +34,75 @@
       </div>
     </div>
   </div>
+
+  <details style="max-width: 600px; margin: 40px auto 0;">
+    <summary style="cursor: pointer; color: #666;">How do I use this thing?</summary>
+    <div style="padding: 10px 0;">
+      <p>
+        The goal of this website is to start a conversation with a friend, even if there's not a particular reason to do so.
+        <br><br>
+        Maybe you've both been busy recently and haven't caught up.
+        <br><br>
+        In order to do this, you need to paste a list of your friends (each on their own line) into the text box.
+        <br><br>
+        The easy method:
+      <ol>
+        <li>
+          <strong>Prompt your favourite chatbot</strong><br>
+          <span style="color: #777;">Copy+paste the below prompt into a chatbot (e.g. <a href="https://chatgpt.com/"
+              target="_blank">ChatGPT</a>).</span>
+
+          <blockquote style="padding: 15px; border-left: 4px solid #666; margin: 10px 0; color: #999;">
+            I will give you a list of profiles copied from a social media site.
+            <br>
+            Return a list in the following format: Name (Handle)
+            <br>
+            Example: Joe (joe_handle)
+            <br>
+            Write only plain text, one profile per line, no bullet points, no preamble/fluff.
+            <br>
+            Most account handles will match their name. However, do not limit yourself to accounts with names in their
+            handles.
+            <br>
+            List of profiles:
+          </blockquote>
+          <div style="text-align: center;">
+            <img src="step1.png" alt="Example of chatbot prompt" style="max-width: 70%; margin: 10px 0;">
+          </div>
+        </li>
+        <li>
+          <strong>Append your friends list</strong><br>
+          <span style="color: #777;">Copy a (messy) list of your friends, e.g. your Instagram followers list, and paste
+            it at the end of the prompt. Let the chatbot correctly format your list for you.</span>
+          <div style="text-align: center;">
+            <img src="step2a.png" alt="Copying social media followers list" style="max-width: 70%; margin: 10px 0;">
+            <img src="step2b.png" alt="Pasting the list into the prompt" style="max-width: 70%; margin: 10px 0;">
+          </div>
+        </li>
+        <li>
+          <strong>Copy the result</strong><br>
+          <span style="color: #777;">Copy the result from the chatbot and paste it into the text box on this
+            page.</span>
+          <div style="text-align: center;">
+            <img src="step3.png" alt="Copying the result from the chatbot" style="max-width: 70%; margin: 10px 0;">
+          </div>
+        </li>
+        <li>
+          <strong>Enjoy!</strong><br>
+          <span style="color: #777;">Have a nice chat with someone you haven't talked to in a while.</span>
+
+        </li>
+      </ol>
+      </p>
+      <p style="color: #666; font-style: italic;">Note: For best results, you may want to chunk the list into ~50
+        friends at a time. You may also need to tinker with the prompt a bit.</p>
+    </div>
+  </details>
+
+  <footer style="text-align: center; padding: 20px; margin-top: 40px; color: #666;">
+    Made by szge &middot; <a href="https://github.com/szge/whototext">GitHub</a> &middot; <a
+      href="https://x.com/Monospastic">Twitter</a>
+  </footer>
 
   <script>
     let hasGeneratedOnce = false;
@@ -84,7 +154,12 @@
       const friends = text.split('\n').filter(line => line.trim() !== '');
 
       if (friends.length === 0) {
-        document.getElementById('result').textContent = 'Please get some friends (or add them to the list)!';
+        const button = document.querySelector('button');
+        const originalText = "Text a Friend";
+        button.textContent = "You Need More Friends!";
+        setTimeout(() => {
+          button.textContent = originalText;
+        }, 1000);
         return;
       }
 
@@ -118,7 +193,7 @@
       const isMobile = window.innerWidth <= 768; // Common breakpoint for mobile devices
       document.getElementById('mobileWarning').style.display = isMobile ? 'block' : 'none';
     }
-    
+
     // Call this when page loads and when window is resized
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
@@ -127,24 +202,20 @@
       const now = new Date();
       const day = now.toLocaleDateString('en-US', { weekday: 'long' });
       const hour = now.getHours();
-      
+
       let timeOfDay;
       if (hour >= 5 && hour < 12) timeOfDay = 'morning';
       else if (hour >= 12 && hour < 17) timeOfDay = 'afternoon';
       else if (hour >= 17 && hour < 22) timeOfDay = 'evening';
       else timeOfDay = 'night';
-      
-      document.getElementById('timeText').innerHTML = 
+
+      document.getElementById('timeText').innerHTML =
         `It's a ${day} ${timeOfDay} and you're bored. You have between 1 and <a href="https://en.wikipedia.org/wiki/Dunbar%27s_number" target="_blank">150</a> friends. You want to chat with someone, but don't have a reason to reach out to anyone in particular. This website is your reason.`;
     }
-    
+
     // Call when page loads
     updateTimeText();
   </script>
-  
-  <footer style="text-align: center; padding: 20px; margin-top: 40px; color: #666;">
-    Made by szge &middot; <a href="https://github.com/szge/whototext">GitHub</a> &middot; <a href="https://x.com/Monospastic">Twitter</a>
-  </footer>
 </body>
 
 </html>
