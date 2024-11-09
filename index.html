@@ -26,11 +26,20 @@
     <div id="openerSection" style="display: none;">
       <p style="color: #666;">You're texting:</p>
       <h3 id="result"></h3>
-      <p style="color: #666;">You can open with:</p>
+      <p style="color: #666;">Here's a potential opener:</p>
       <p id="opener"></p>
       <div id="openerButtons">
         <button onclick="getRandomOpener()">New Opener ↻</button>
-        <button onclick="copyOpener(event)">Copy Text</button>
+        <button onclick="copyOpener(event)">Copy Opener</button>
+      </div>
+      <div style="margin-top: 15px;">
+        <span style="color: #666; margin-right: 5px;">Style:</span>
+        <select id="openerStyle" style="margin-right: 5px; padding: 11px; font-size: 16px;">
+          <option value="all">All Styles</option>
+          <option value="formal">Formal</option>
+          <option value="superCasual">Super Casual</option>
+          <option value="wtf">WTF</option>
+        </select>
       </div>
     </div>
   </div>
@@ -39,7 +48,8 @@
     <summary style="cursor: pointer; color: #666;">How do I use this thing?</summary>
     <div style="padding: 10px 0;">
       <p>
-        The goal of this website is to start a conversation with a friend, even if there's not a particular reason to do so.
+        The goal of this website is to start a conversation with a friend, even if there's not a particular reason to do
+        so.
         <br><br>
         Maybe you've both been busy recently and haven't caught up.
         <br><br>
@@ -67,7 +77,8 @@
             List of profiles:
           </blockquote>
           <div style="text-align: center;">
-            <button onclick="copyPrompt()" style="margin: 10px 0; background: #999; border-color: #444;">Copy Prompt</button>
+            <button onclick="copyPrompt()" style="margin: 10px 0; background: #999; border-color: #444;">Copy
+              Prompt</button>
           </div>
           <div style="text-align: center;">
             <img src="step1.png" alt="Example of chatbot prompt" style="max-width: 70%; margin: 10px 0;">
@@ -75,7 +86,8 @@
         </li>
         <li>
           <strong>Append your friends list</strong><br>
-          <span style="color: #777;">Copy a (messy) list of your friends, e.g. your <a href="https://www.instagram.com/" target="_blank">Instagram</a> followers list, and paste
+          <span style="color: #777;">Copy a (messy) list of your friends, e.g. your <a href="https://www.instagram.com/"
+              target="_blank">Instagram</a> followers list, and paste
             it at the end of the prompt. Let the chatbot correctly format your list for you.</span>
           <div style="text-align: center;">
             <img src="step2a.png" alt="Copying social media followers list" style="max-width: 70%; margin: 10px 0;">
@@ -111,15 +123,15 @@
     let hasGeneratedOnce = false;
 
     function saveFriendList() {
-        const text = document.getElementById('friendList').value;
-        localStorage.setItem('friendList', text);
+      const text = document.getElementById('friendList').value;
+      localStorage.setItem('friendList', text);
     }
 
     function loadFriendList() {
-        const savedList = localStorage.getItem('friendList');
-        if (savedList) {
-            document.getElementById('friendList').value = savedList;
-        }
+      const savedList = localStorage.getItem('friendList');
+      if (savedList) {
+        document.getElementById('friendList').value = savedList;
+      }
     }
 
     document.getElementById('friendList').addEventListener('input', saveFriendList);
@@ -127,44 +139,135 @@
     document.addEventListener('DOMContentLoaded', loadFriendList);
 
     const openers = {
-      "casual": [
+      "formal": [
         "Hey! It's been forever - how have you been?",
         "Just thought of you and wanted to say hi! What's new in your world?",
         "Long time no chat! Hope you've been doing well 😊",
-        "Realized we haven't caught up in ages - how's life treating you?"
-      ],
-      "nostalgic": [
-        "Remember that time we [went hiking/took that road trip/had that movie marathon]? Made me smile thinking about it today!",
-        "Was just reminiscing about [shared memory] and had to reach out! How've you been?",
-        "Found an old photo of us from [event/place] and it made my day. Hope you're doing great!"
-      ],
-      "playful": [
+        "Realized we haven't caught up in ages - how's life treating you?",
         "🚨 Friend check-in alert! 🚨 Requesting status update on your awesome life!",
         "Breaking news: I miss your face! How's everything?",
         "Performing scheduled friendship maintenance... *beep boop* How are you? 🤖",
-        "Warning: Extreme catch-up session incoming! Are you prepared?"
-      ],
-      "thoughtful": [
-        "Something reminded me of you today and I realized how much I miss our chats!",
-        "The [book/movie/song] I just experienced made me think of you - would love to hear what you've been up to!",
+        "Warning: Extreme catch-up session incoming! Are you prepared?",
         "Hey! No special reason - just wanted you to know you crossed my mind and I hope you're doing well!"
       ],
-      "seasonal": [
-        "This [perfect spring day/cozy winter evening/beautiful fall morning] made me think of you! How's your season going?",
-        "Is it just me or is this weather giving total [inside joke] vibes? Hope you're enjoying it!",
-        "Summer/winter/spring/fall check-in! What's been the highlight of your season so far?"
+      "superCasual": [
+        // Super casual greetings
+        "yo what's good",
+        "bruhhh",
+        "alive?",
+        "👋",
+        "u up lol",
+
+        // Random thoughts/observations
+        "saw a dog that looks exactly like u",
+        "this meme made me think of u",
+        "ur not gonna believe what just happened",
+        "why is adulting so hard tho",
+
+        // Gaming/hanging references
+        "valorant?",
+        "haven't carried u in games for a while",
+        "when we hanging",
+        "miss ur toxic self in the discord",
+
+        // Food-related
+        "food?",
+        "getting boba, u in?",
+        "starving, wanna grab smth",
+
+        // Reaction-based
+        "💀",
+        "👁👄👁",
+        "🗿",
+
+        // Random chaos
+        "don't leave me on read this time bestie",
+        "guess who just remembered they have friends",
+        "dropping in to cause problems",
+        "mentally i'm still in 2019 wbu"
       ],
-      "interestBased": [
-        "Saw something that screamed [their interest] and had to share! How's your [hobby/passion] going lately?",
-        "Just watched/read/heard something that gave me major [shared interest] vibes - made me think of our conversations! What's new?"
+      "wtf": [
+        // Weird observations
+        "saw a gremlin at walmart that has ur energy",
+        "this raccoon eating trash rn reminds me of u",
+        "why does this potato look exactly like ur selfie from last week",
+        "found ur spiritual animal it's a derpy penguin",
+        "this cave goblin energy ur giving off lately >>",
+
+        // Random accusations
+        "why u been posting thirst traps on main",
+        "caught ur doppelganger fighting a pigeon",
+        "ur minecraft house haunts my dreams",
+        "stop showing up in my spotify wrapped bestie",
+        "why u in my recommended friends on linkedin looking all professional and shit",
+
+        // Cursed updates
+        "currently befriending the demon under my bed, u would like them",
+        "made eye contact with my sleep paralysis demon, reminded me of u",
+        "organizing my sock drawer alphabetically wanna join",
+        "trying to teach my plant spanish but it only speaks french??",
+
+        // Pure chaos
+        "ur carbon footprint looking kinda thicc",
+        "just took a buzzfeed quiz and it says im a garden gnome thoughts?",
+        "manifesting u stepping on a lego rn",
+        "ur wifi password gives off red flags",
+        "bold of u to exist in my general direction like that",
+
+        // I'm in your walls type beats
+        "ur walls taste different today",
+        "nice ceiling fan u got. been watching it spin for 3 hours",
+        "ur fridge is running and im helping it escape",
+        "moved all ur furniture 2 inches to the left",
+        "drinking milk straight from ur cow (im in ur backyard)",
+
+        // Threatening aura
+        "just rearranged ur spotify playlists alphabetically while u were sleeping",
+        "stealing ur windshield wipers for my collection",
+        "replaced all ur teeth with tic tacs while u weren't looking",
+        "downloaded more ram to ur microwave",
+        "currently teaching ur goldfish tax evasion",
+
+        // Existential chaos
+        "hey quick q why is ur shadow moving without u",
+        "ur mirror clone says hi (they miss u)",
+        "the government assigned me as ur new sleep paralysis demon",
+        "im the final boss in ur minecraft world and im approaching rapidly",
+        "just stole ur birth certificate, ur legally a caprisun now",
+
+        // Pure nonsense
+        "what if we kissed in the backrooms (and we're both roomba)",
+        "attempting mitosis in ur kitchen sink",
+        "making eye contact with ur sleep paralysis demon (we're besties now)",
+        "hey i wasnt gonna say anything but ur aura is looking a bit hexagonal today",
+        "just borrowed ur genetic code (will return it slightly used)",
+
+        // Absolutely unhinged
+        "submitting ur browser history to wikileaks",
+        "ur FBI agent told me to tell u to stop",
+        "terraforming ur minecraft bed into a yugoslavian war crime",
+        "just girlbossed too close to the sun and now im in ur attic",
+        "hey bestie im stealing ur bones (for science)",
+        "currently reorganizing ur atoms alphabetically",
+        "printing ur dreams in 4k (they're mostly static)",
+        "downloading ur consciousness to my nintendo ds",
+        "materializing in ur dishwasher",
+        "ur toaster told me all ur secrets"
       ]
-    }
+    };
 
     function getRandomOpener() {
-      const categories = Object.keys(openers);
-      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-      const templates = openers[randomCategory];
-      const randomTemplate = templates[Math.floor(Math.random() * templates.length)];
+      const selectedStyle = document.getElementById('openerStyle').value;
+      let availableOpeners;
+
+      if (selectedStyle === 'all') {
+        const allOpeners = [...openers.formal, ...openers.superCasual, ...openers.wtf];
+        availableOpeners = allOpeners;
+      } else {
+        availableOpeners = openers[selectedStyle];
+      }
+
+      const randomTemplate = availableOpeners[Math.floor(Math.random() * availableOpeners.length)];
       document.getElementById('opener').textContent = randomTemplate;
     }
 
